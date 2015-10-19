@@ -35,50 +35,51 @@
 			i++;
 		});
 		
+		function changeStatus(indexOfStatus, className, text) {
+			var id = "#status" + indexOfStatus;
+			$(id).fadeOut(200, function(){
+								$(id).html(text);
+								$(id).attr("class", className);
+								$(id).fadeIn(200);
+							});
+		}
+		
 		var sprawdzonoIlosc = 0;
 		var offlineIlosc = 0;
 		function Site (domain, index) {
 			this.domain = domain;
 			this.index = index;
 			Site.prototype.xmlhttp = new XMLHttpRequest();
+			var parentThis = this;
 			this.run = function() {
 				this.xmlhttp.onreadystatechange = function() {
-					if (this.readyState == 4 && this.status == 200) {
-						var resp = this.responseText;
-						this.getAllResponseHeaders().split('\r\n').forEach(function(entry) {
-							var tokens = entry.split('\u003a\u0020');
-							if (tokens.length === 2) {
-								if(tokens[0] == "Status-Id") {
-									var name = "#" + tokens[1];
-									if(resp == "true") {
-										$(name).fadeOut(200, function(){
-											$(name).html("ONLINE");
-											$(name).attr("class", "online");
-											$(name).fadeIn(200);
-										});
-									}
-									else {
-										$(name).fadeOut(200, function(){
-											$(name).html("OFFLINE");
-											$(name).attr("class", "offline");
-											$(name).fadeIn(200);
-										});
-										offlineIlosc++;
-									}
-									sprawdzonoIlosc++;
-									
-									if(sprawdzonoIlosc == sites.length) {
-										if(offlineIlosc == 0) {
-											$("#text").html("Bomba, wszystko stoi na baczność.");
-										}
-										else {
-											$("#text").html("Coś umarło :(");
-										}
-										$("#text").toggleClass("hide");
-									}
-								}
+					if (this.readyState == 4) 
+					{
+						if(this.status == 200) {
+							var resp = this.responseText;
+							if(resp == "true") {
+								changeStatus(parentThis.index, 'online', 'ONLINE');
 							}
-						});
+							else {
+								changeStatus(parentThis.index, 'offline', 'OFFLINE');
+								offlineIlosc++;
+							}
+							sprawdzonoIlosc++;
+									
+							if(sprawdzonoIlosc == sites.length) {
+								if(offlineIlosc == 0) {
+									$("#text").html("Bomba, wszystko stoi na baczność.");
+								}
+								else {
+									$("#text").html("Coś umarło :(");
+								}
+								$("#text").toggleClass("hide");
+							}
+						}
+						else {
+							console.log("SERVER ERROR: " + this.status + " while checking " + parentThis.domain);
+							changeStatus(parentThis.index, 'error', 'ERROR');
+						}
 					}
 				}
 				this.xmlhttp.open("GET", "http://cookiezcreations.ovh/isup.php?host=" + this.domain, true);
@@ -87,18 +88,17 @@
 			}
 		}
 		
-		
 		var Sites = [];
 		for (y = 0; y < i; y++) { 
 			var domena = $("#host" + y).text();
-			console.log(domena);
+			console.log("PRZETWARZANIE: " + domena);
 			Sites.push(new Site(domena, y));
 			Sites[y].run();
 		}
 		
 		setTimeout(function() {
 			$("#tabela").toggleClass("hide");
-		}, 10);
+		}, 100);
 		
 	</script>
 </body>
