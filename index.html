@@ -12,7 +12,7 @@
 	<link rel='stylesheet' href='./ball-pulse.min.css' type='text/css'>
 	<link rel='stylesheet' href='./style.css' type='text/css'>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<meta name="viewport" content="width=350px" >
+	<meta name="viewport" content="width=450px" >
 </head>
 
 <body>
@@ -31,9 +31,10 @@
 		</tr>
 	</table>
 	
-	<script>
+	<script>	
 		var sites = ["zsbi.pl", "www.zsbi.internetdsl.pl", "cufs.vulcan.net.pl", "uonetplus.vulcan.net.pl", "google.com", "google.pl", "youtube.pl", "youtube.com", "facebook.com", "reddit.com", "wykop.pl", "shinden.pl"];
 		var i = 0;
+		
 		sites.forEach(function(entry) {
 			$('#tabela').find('tbody:last').append('<tr><td id="' + 'host' + i + '">' + entry + '</td><td class="status"><div id="status' + i + '"><div class="la-ball-pulse"><div></div><div></div><div></div></div></div></td></tr>');
 			i++;
@@ -69,7 +70,6 @@
 								offlineIlosc++;
 							}
 							sprawdzonoIlosc++;
-									
 							if(sprawdzonoIlosc == sites.length) {
 								if(offlineIlosc == 0) {
 									$(".text").html("Bomba, wszystko stoi na baczność.");
@@ -104,6 +104,25 @@
 			$("#tabela").toggleClass("hide");
 		}, 100);
 		
+		function addInputbox() {
+			$('#tabela').find('tbody:last').append('<tr><td><input id="input-input" type="text" name="website" placeholder="Wpisz tu adres strony."></input></td><td><button id="input-accept" type="button" onclick="replaceInputBox()">Dodaj</button></td></tr>');
+		}
+		
+		function replaceInputBox() {
+			var domena = $("#input-input").val();	
+			
+			$('#tabela').find('tr:last').replaceWith('<tr><td id="' + 'host' + i + '">' + domena + '</td><td class="status"><div id="status' + i + '"><div class="la-ball-pulse"><div></div><div></div><div></div></div></div></td></tr>');
+			
+			console.log("PRZETWARZANIE: " + domena);
+			Sites.push(new Site(domena, i));
+			Sites[i].run();
+			
+			i++;
+			
+			addInputbox();
+		}
+		
+		addInputbox();
 	</script>
 </body>
 

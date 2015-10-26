@@ -57,7 +57,11 @@ tbody tr:not(:first-child):hover td {
 	color: #FFF;
 }
 
-tbody tr:not(:first-child):hover td * {
+tbody tr:not(:first-child):hover td :not(input):not(button) {
+	color: #FFF;
+}
+
+tbody tr:hover td :not(input):not(button) {
 	color: #FFF;
 }
 
