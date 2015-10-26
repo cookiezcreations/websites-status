@@ -16,7 +16,10 @@
 </head>
 
 <body>
-	<div id="text" class="hide">DUPA</div>
+	<noscript>
+		<div class="text">Ta strona do działania wymaga JavaScript.</div>
+	</noscript>
+	<div class="hide text">DUPA</div>
 	<table id="tabela" class="hide">
 		<tr>
 			<th>
@@ -69,12 +72,12 @@
 									
 							if(sprawdzonoIlosc == sites.length) {
 								if(offlineIlosc == 0) {
-									$("#text").html("Bomba, wszystko stoi na baczność.");
+									$(".text").html("Bomba, wszystko stoi na baczność.");
 								}
 								else {
-									$("#text").html("Coś umarło :(");
+									$(".text").html("Coś umarło :(");
 								}
-								$("#text").toggleClass("hide");
+								$(".text").toggleClass("hide");
 							}
 						}
 						else {
