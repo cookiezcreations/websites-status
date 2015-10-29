@@ -34,6 +34,10 @@ td, th {
 	transition: all 0.2s;
 }
 
+td div {
+	transition: all 0.2s;
+}
+
 th {
 	background: #DFDFDF;
 	font-weight: bold;
