@@ -31,11 +31,11 @@ table {
 
 td, th { 
 	height: 30px;
-	transition: all 0.2s;
+	transition: color 0.2s;
 }
 
 td div {
-	transition: all 0.2s;
+	transition: color 0.2s;
 }
 
 th {
