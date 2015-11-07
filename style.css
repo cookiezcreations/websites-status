@@ -31,7 +31,7 @@ table {
 
 td, th { 
 	height: 30px;
-	transition: color 0.2s;
+	transition: color 0.2s, background-color 0.2s;
 }
 
 td div {
